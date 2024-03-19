@@ -135,7 +135,7 @@ Control this OUTPUT by sending /output/run/(ID) (VALUE)
 ### PWM
 
 PWM are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
-(ID) will be sequentially attributed from 0 to 8</br>
+(ID) will be sequentially attributed from 0 to 7</br>
 Control this PWM by sending /PWM/run/(ID) (VALUE)
 
 | i/o 	| OSC Address 	    | DATA   	        | Description                         	             |
@@ -144,10 +144,10 @@ Control this PWM by sending /PWM/run/(ID) (VALUE)
 | <-  	| /PWM/status 	    | (ID) Integer      | ESP confirms by reply the (ID) of this PWM         |
 | ->  	| /PWM/run/(ID) 	| (VALUE) Integer   | set (VALUE) from 0 to 255 to fadeInOut this PWM    |
 
-### Servo
+### Servo motor
 
 Servo are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
-(ID) will be sequentially attributed from 0 to 8</br>
+(ID) will be sequentially attributed from 0 to 7</br>
 Control this Servo by sending /servo/pos/(ID) (VALUE)
 
 | i/o 	| OSC Address 	    | DATA   	        | Description                         	          |
@@ -159,7 +159,7 @@ Control this Servo by sending /servo/pos/(ID) (VALUE)
 ### DC motor
 
 DCmotor are available on (PIN_A), (PIN_B), (PIN_SPEED) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
-(ID) will be sequentially attributed from 0 to 8</br>
+(ID) will be sequentially attributed from 0 to 7</br>
 Control this DCmotor by sending /DCmotor/speed/(ID) (VALUE)
 Control this DCmotor by sending /DCmotor/dir/(ID) (VALUE)
 
@@ -172,22 +172,36 @@ Control this DCmotor by sending /DCmotor/dir/(ID) (VALUE)
 
 ### Stepper
 
+##### 2 PINS
+
+Stepper are available on (PIN_DIR), (PIN_STEP) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 7</br>
+Control this Stepper by sending /stepper/speed/(ID) (VALUE)
+Control this Stepper by sending /stepper/dist/(ID) (VALUE)
+
+| i/o 	| OSC Address 	      | DATA   	                        | Description                         	                    |
+|-----	|-------------	      |--------	                        |-------------------------------------	                    |
+| ->  	| /setup/stepper/2pin | (PIN_DIR) Integer (PIN_STEP) Integer | set (PIN_DIR) (PIN_STEP) to be controled as a Stepper|
+| <-  	| /DCmotor/status     | (ID) Integer                         | ESP confirms by reply the (ID) of this Stepper       |
+| ->  	| /DCmotor/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                          |
+| ->  	| /DCmotor/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+
+##### 4 PINS
+
+Stepper are available on (PIN_A), (PIN_B), (PIN_C), (PIN_D) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 7</br>
+Control this Stepper by sending /stepper/speed/(ID) (VALUE)
+Control this Stepper by sending /stepper/dist/(ID) (VALUE)
+
+| i/o 	| OSC Address 	      | DATA   	                        | Description                         	                    |
+|-----	|-------------	      |--------	                        |-------------------------------------	                    |
+| ->  	| /setup/stepper/2pin | (PIN_A) Integer (PIN_B) Integer (PIN_C) Integer (PIN_D) Integer | set (PIN_A) (PIN_B) (PIN_C) (PIN_D) to be controled as a Stepper|
+| <-  	| /DCmotor/status     | (ID) Integer                    | ESP confirms by reply the (ID) of this Stepper       |
+| ->  	| /DCmotor/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                          |
+| ->  	| /DCmotor/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+
 ### Oled
 
+
+
 ### MPU9250
-
-
-
-
-
--> /setup/output "i"
--> /setup/dist "ii"
--> /setup/rfid "i"
--> /setup/tempHumidity "i"
--> /setup/mpu9250 ""
--> /setup/stepper/2pin "ii"
--> /setup/stepper/4pin "iiii"
--> /setup/PWM "i"
--> /setup/servo "i"
--> /setup/DCmotor "iii"
--> /setup/display ""
