@@ -70,7 +70,7 @@ Potentiometer are available on (PIN_NUM) : 32, 33, 34, 35</br>
 | <-  	| /input/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this potentiometer|
 | <-  	| /input/(ID) 	      | (VALUE) Integer            | At every loop ESP send potentiometer state (VALUE)  |
 
-### Touch sensor
+### Touch/Capasitive sensor
 
 Touch sensor are available on (PIN_NUM) : 4, 12, 13, 14, 15, 27, 32, 33</br>
 (ID) will be sequentially attributed from 0 to 7</br>
@@ -108,17 +108,67 @@ Temperature Humidity sensor are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 1
 | <-  	| /tempHumidity/status| (ID) Integer                        | ESP confirms by reply the (ID) of this tempHumidity sensor   |
 | <-  	| /tempHumidity/(ID)  | (VALUE_A) Integer (VALUE_B) Integer | At every loop ESP send temperature and Humidity sensor values|
 
-### Ultrasonic Sensor
+### Ultrasonic/Distance Sensor
 
-## Outputs
+Ultrasonic sensor are available on (TRIG_PIN) & (ECHO_PIN) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 7</br>
+(VALUE) will depend on Ultrasonic sensor from 0 to ...
+
+| i/o 	| OSC Address 	  | DATA   	                              | Description                         	                |
+|-----	|-------------	  |--------	                              |-------------------------------------	                |
+| ->  	| /setup/dist     | (TRIG_PIN) Integer (ECHO_PIN) Integer | set (TRIG_PIN) & (ECHO_PIN) to be read as a dist sensor |
+| <-  	| /dist/status 	  | (ID) Integer                          | ESP confirms by reply the (ID) of this dist sensor      |
+| <-  	| /dist/(ID) 	  | (VALUE) Integer                       | At every loop ESP send distance sensor state (VALUE)    |
 
 ### DigitalOut
 
+DigitalOut are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 15</br>
+Control this OUTPUT by sending /output/run/(ID) (VALUE)
+
+| i/o 	| OSC Address 	    | DATA   	        | Description                         	                |
+|-----	|-------------	    |--------	        |-------------------------------------	                |
+| ->  	| /setup/output     | (PIN_NUM) Integer | set (PIN_NUM) to be control as an OUTPUT              |
+| <-  	| /output/status 	| (ID) Integer      | ESP confirms by reply the (ID) of this OUTPUT         |
+| ->  	| /output/run/(ID) 	| (VALUE) Integer   | set (VALUE) to 1 or 0 to turn on/off this OUTPUT      |
+
 ### PWM
+
+PWM are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 8</br>
+Control this PWM by sending /PWM/run/(ID) (VALUE)
+
+| i/o 	| OSC Address 	    | DATA   	        | Description                         	             |
+|-----	|-------------	    |--------	        |-------------------------------------	             |
+| ->  	| /setup/PWM        | (PIN_NUM) Integer | set (PIN_NUM) to be control as a PWM               |
+| <-  	| /PWM/status 	    | (ID) Integer      | ESP confirms by reply the (ID) of this PWM         |
+| ->  	| /PWM/run/(ID) 	| (VALUE) Integer   | set (VALUE) from 0 to 255 to fadeInOut this PWM    |
 
 ### Servo
 
+Servo are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 8</br>
+Control this Servo by sending /servo/pos/(ID) (VALUE)
+
+| i/o 	| OSC Address 	    | DATA   	        | Description                         	          |
+|-----	|-------------	    |--------	        |-------------------------------------	          |
+| ->  	| /setup/servo      | (PIN_NUM) Integer | set (PIN_NUM) to be control as a servo          |
+| <-  	| /servo/status     | (ID) Integer      | ESP confirms by reply the (ID) of this servo    |
+| ->  	| /servo/pos/(ID) 	| (VALUE) Integer   | set (VALUE) from 0 to 180 to move this servo    |
+
 ### DC motor
+
+DCmotor are available on (PIN_A), (PIN_B), (PIN_SPEED) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 8</br>
+Control this DCmotor by sending /DCmotor/speed/(ID) (VALUE)
+Control this DCmotor by sending /DCmotor/dir/(ID) (VALUE)
+
+| i/o 	| OSC Address 	      | DATA   	                                            | Description                         	                      |
+|-----	|-------------	      |--------	                                            |-------------------------------------	                      |
+| ->  	| /setup/DCmotor      | (PIN_A) Integer (PIN_B) Integer (PIN_SPEED) Integer | set (PIN_A) (PIN_B) (PIN_SPEED) to be controled as a DCmotor|
+| <-  	| /DCmotor/status     | (ID) Integer      | ESP confirms by reply the (ID) of this DCmotor                                                |
+| ->  	| /DCmotor/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                                                |
+| ->  	| /DCmotor/dir/(ID)   | (VALUE) Integer   | set (VALUE) from (-1) : BACKWARD (0) : STOP (1) : FORWARD                                     |
 
 ### Stepper
 
