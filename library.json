@@ -1,0 +1,21 @@
+{
+    "name": "SwissArmyKnife",
+    "version": "1.0.4",
+    "keywords": "sound, encoding, OSC",
+    "license": "MIT",
+    "description": "Create your ESP32 project without code",
+    "authors": [
+      {
+        "name": "Vincent Evrard",
+        "email": "vincent@ogre.be",
+        "url": "http://ogre.be"
+      }    
+    ],
+    "repository":
+    {
+      "type": "git",
+      "url": "git@github.com:oogre/SwissArmyKnife.git"
+    },
+    "frameworks": "arduino",
+    "platforms": ["espressif32"]
+  }
