@@ -2,6 +2,25 @@
 
 SwissArmyKnife is an _Arduino_ software, developped for ESP32 board. It's been writen to help art students to develop custom hardware solution without the needs to write C/C++ code. It uses [OSC](https://fr.wikipedia.org/wiki/Open_Sound_Control) to setup and control hardwares connected on the board.
 
+## Install
+This code depends on multiple libraries :  
+* Adafruit BusIO
+* Adafruit GFX Library
+* Adafruit SSD1306
+* Adafruit Unified Sensor
+* DHT sensor library
+* EasyOsc
+* ESP32 ESP32S2 AnalogWrite
+* EspSoftwareSerial
+
+### With Arduino IDE
+Install all in once! Clone this repository. Then unzip file *SwissArmyKnife.zip* copy everything inside the folder : *drop_content_to_arduino_Libraries* and paste them to *~/Documents/Arduino/libraries*</br>
+Open *File/Exemples/SwissArmyKnife/exemple/SwissArmyKnife* then upload on your ESP32 board.
+
+### With Plateformio
+Clone this repository. Then import the main folder with the Plateformio tools. Enjoy ;)
+
+
 ## Default WiFi Configuration
 
 |         |                   |
