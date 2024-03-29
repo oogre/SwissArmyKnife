@@ -201,9 +201,9 @@ Control this Stepper by sending /stepper/dist/(ID) (VALUE)
 | i/o 	| OSC Address 	      | DATA   	                        | Description                         	                    |
 |-----	|-------------	      |--------	                        |-------------------------------------	                    |
 | ->  	| /setup/stepper/2pin | (PIN_DIR) Integer (PIN_STEP) Integer | set (PIN_DIR) (PIN_STEP) to be controled as a Stepper|
-| <-  	| /DCmotor/status     | (ID) Integer                         | ESP confirms by reply the (ID) of this Stepper       |
-| ->  	| /DCmotor/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                          |
-| ->  	| /DCmotor/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+| <-  	| /stepper/status     | (ID) Integer                         | ESP confirms by reply the (ID) of this Stepper       |
+| ->  	| /stepper/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set stepper speed                          |
+| ->  	| /stepper/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
 
 ##### 4 PINS
 
@@ -214,10 +214,10 @@ Control this Stepper by sending /stepper/dist/(ID) (VALUE)
 
 | i/o 	| OSC Address 	      | DATA   	                        | Description                         	                    |
 |-----	|-------------	      |--------	                        |-------------------------------------	                    |
-| ->  	| /setup/stepper/2pin | (PIN_A) Integer (PIN_B) Integer (PIN_C) Integer (PIN_D) Integer | set (PIN_A) (PIN_B) (PIN_C) (PIN_D) to be controled as a Stepper|
-| <-  	| /DCmotor/status     | (ID) Integer                    | ESP confirms by reply the (ID) of this Stepper       |
-| ->  	| /DCmotor/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                          |
-| ->  	| /DCmotor/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+| ->  	| /setup/stepper/4pin | (PIN_A) Integer (PIN_B) Integer (PIN_C) Integer (PIN_D) Integer | set (PIN_A) (PIN_B) (PIN_C) (PIN_D) to be controled as a Stepper|
+| <-  	| /stepper/status     | (ID) Integer                    | ESP confirms by reply the (ID) of this Stepper       |
+| ->  	| /stepper/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set stepper speed                          |
+| ->  	| /stepper/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
 
 ### Oled
 

@@ -31,7 +31,7 @@ namespace Devices {
             STEPPER_PIN_2(PIN_2),
             STEPPER_PIN_3(PIN_3),
             STEPPER_PIN_4(PIN_4),
-            TWO_PIN_CONTROL(PIN_3 != 0 && PIN_4 != 0),
+            TWO_PIN_CONTROL(PIN_3 == 0 || PIN_4 == 0),
             Base(Base::TYPE::STEPPER)
         {
             pinMode(STEPPER_PIN_1, OUTPUT);
@@ -49,8 +49,8 @@ namespace Devices {
         virtual void run() override {
             if (millis() - lastReadAt > stepDelay) {
                 if (dist > 0) {
-                OneStep(dir);
-                dist--;
+                    OneStep(dir);
+                    dist--;
                 }
                 lastReadAt = millis();
                 Base::run();
@@ -87,6 +87,7 @@ namespace Devices {
                 return;
             }
             if (dir) {
+                
                 switch (step_number) {
                 case 0:
                     digitalWrite(STEPPER_PIN_1, HIGH);
@@ -140,6 +141,7 @@ namespace Devices {
                     digitalWrite(STEPPER_PIN_4, LOW);
                 }
             }
+            delay(stepDelay);
             step_number++;
             step_number %= 4;
         }
