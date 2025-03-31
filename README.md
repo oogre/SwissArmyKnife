@@ -224,3 +224,16 @@ Control this Stepper by sending /stepper/dist/(ID) (VALUE)
 
 
 ### MPU9250
+
+
+### Accelerometer
+
+Accelerometer are available on (I2C port) : SDA on 21 SCL on 22</br>
+(ID) will be sequentially attributed from 0 to 1</br>
+(VALUE) will depend on accelerometer postion from -1 to 1
+
+| i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
+|-----	|-------------	      |--------	                   |-------------------------------------	             |
+| ->  	| /setup/accel        |                            | init accelerometer on the I2C interface             |
+| <-  	| /accel/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this accelerometer|
+| <-  	| /accel/acc(ID) 	  | (VALUE (fVec3)) float, float, float| At every loop ESP send accelerometer state (VALUE)  |
