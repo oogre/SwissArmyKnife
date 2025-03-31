@@ -226,9 +226,9 @@ Control this Stepper by sending /stepper/dist/(ID) (VALUE)
 ### MPU9250
 
 
-### Accelerometer
+### Accelerometer (MMA7660)
 
-Accelerometer are available on (I2C port) : SDA on 21 SCL on 22</br>
+Accelerometer MMA7660 are available on (I2C port) : SDA on 21 SCL on 22</br>
 (ID) will be sequentially attributed from 0 to 1</br>
 (VALUE) will depend on accelerometer postion from -1 to 1
 

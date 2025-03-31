@@ -19,7 +19,7 @@ namespace Devices {
             fVec3 acc;
         };
     private:
-        const static uint8_t MAX = 17;
+        const static uint8_t MAX = 2;
         static uint8_t COUNT;
         uint8_t ID;
         RunHandler<Accel> callback;
