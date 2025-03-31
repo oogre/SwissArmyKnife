@@ -468,12 +468,11 @@ void setup() {
     }
   });
 
-
-
-
   /*
     I2C ACCELEROMETER
     -> /setup/accel
+    <- /accel/status id
+    <- /accel/acc x y z
   */
  IN com.onMessage("/setup/accel", "", {
   [](OSCMessage & msg) {
