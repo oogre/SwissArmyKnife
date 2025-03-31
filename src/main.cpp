@@ -37,7 +37,7 @@ void setup() {
 
 
   EasyOsc::ConnectionConf conf = EasyOsc::ConnectionConf()
-                                 .setSSID(prefs.getString("SSID", "SwissArmyKnife"))
+                                 .setSSID(prefs.getString("SSID", "__DEVICE_NAME__"))
                                  .setPWD(prefs.getString("PWD", ""))
                                  .setInPort(prefs.getUInt("inPort", 8888))
                                  .setOutPort(prefs.getUInt("outPort", 9999))
@@ -467,6 +467,25 @@ void setup() {
       });
     }
   });
+
+
+
+
+  /*
+    I2C ACCELEROMETER
+    -> /setup/accel
+  */
+ IN com.onMessage("/setup/accel", "", {
+  [](OSCMessage & msg) {
+    auto device = addDevice(new Devices::Accelerometer({
+      [](Devices::Base * target, Devices::Accelerometer::Accel value) {
+        EasyOsc::MessageOSC("/accel/acc/" + String(target->getID())).add(value.acc.x).add(value.acc.y).add(value.acc.z).send(&com);
+      }
+    }));
+    uint8_t id = device->getID();
+    OUT EasyOsc::MessageOSC("/accel/status/").add(id).send(&com).toString();
+  }
+});
 }
 
 void loop() {
@@ -479,3 +498,4 @@ void loop() {
     delay(wait);
   }
 }
+

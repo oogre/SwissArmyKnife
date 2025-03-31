@@ -12,6 +12,7 @@
 #include "PwmServoDc.h"
 #include "MPU9250.h"
 #include "Oled.h"
+#include "Accelerometer.h"
 
 
 std::vector<std::shared_ptr<Devices::Base>> devices;

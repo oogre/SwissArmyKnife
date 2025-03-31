@@ -1,23 +1,33 @@
-#ifndef Button_h
-#define Button_h
+#ifndef Accelrometer_h
+#define Accelrometer
 
 #include <Arduino.h>
 #include "Base.h"
 #include <Wire.h>
 #include "dependencies/MMA7660/MMA7660.h"
 
-
-
 namespace Devices {
 
     class Accelerometer : public Base {
+    public :
+        struct fVec3 {
+            float x; 
+            float y; 
+            float z;
+        };
+        struct Accel {
+            fVec3 acc;
+        };
+    private:
         const static uint8_t MAX = 17;
         static uint8_t COUNT;
         uint8_t ID;
-        RunHandler<bool> callback;
+        RunHandler<Accel> callback;
         MMA7660 accelemeter;
+        uint32_t lastReadAt = 0;
+        uint32_t readDelay = 33;
     public :
-        Accelerometer(RunHandler<bool> callback)
+        Accelerometer(RunHandler<Accel> callback)
         : 
         callback(callback),
         Base(Base::TYPE::ACCELEROMETER)
@@ -30,34 +40,20 @@ namespace Devices {
         }
         virtual ~Accelerometer() override {}
         virtual void run() override {
-            int8_t x;
-            int8_t y;
-            int8_t z;
-            float ax, ay, az;
-            accelemeter.getXYZ(&x, &y, &z);
-
-            Serial.print("x = ");
-            Serial.println(x);
-            Serial.print("y = ");
-            Serial.println(y);
-            Serial.print("z = ");
-            Serial.println(z);
-
-            accelemeter.getAcceleration(&ax, &ay, &az);
-            Serial.println("accleration of X/Y/Z: ");
-            Serial.print(ax);
-            Serial.println(" g");
-            Serial.print(ay);
-            Serial.println(" g");
-            Serial.print(az);
-            Serial.println(" g");
-            Serial.println("*************");
-            // if (millis() - lastReadAt > readDelay) {
-            //     bool value = digitalRead(pin);
-            //     callback(this, mode == INPUT ? value : !value);
-            //     lastReadAt = millis();
-            //     Base::run();
-            // }
+            if (millis() - lastReadAt > readDelay) {
+                int8_t x;
+                int8_t y;
+                int8_t z;
+                float ax, ay, az;
+                accelemeter.getXYZ(&x, &y, &z);
+                accelemeter.getAcceleration(&ax, &ay, &az);
+                Accel value = {
+                    fVec3{ax, ay, az}
+                };
+                callback(this, value);
+                lastReadAt = millis();
+                Base::run();
+            }
         }
     };
     uint8_t Accelerometer::COUNT = 0;
