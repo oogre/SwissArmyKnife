@@ -9,7 +9,6 @@ namespace Devices {
     class Button : public Base {
         const static uint8_t MAX = 17;
         static uint8_t COUNT;
-        uint8_t ID;
         uint8_t pin;
         uint8_t mode;
         uint32_t lastReadAt = 0;
@@ -22,7 +21,7 @@ namespace Devices {
         callback(callback),
         Base(Base::TYPE::BUTTON)
         {
-            ID = Button::COUNT++;
+            n = Button::COUNT++;
             if (Button::COUNT > Button::MAX) {
                 throw "TO MUCH Button DEVICE";
             }

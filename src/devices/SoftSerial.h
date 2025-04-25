@@ -11,7 +11,6 @@ namespace Devices {
         SoftwareSerial * serial;
         const static uint8_t MAX = 8;
         static uint8_t COUNT;
-        uint8_t ID;
         RunHandler<String> callback;
         typedef String (*ActionHandler)(SoftwareSerial*);
         ActionHandler action;
@@ -23,7 +22,7 @@ namespace Devices {
             Base(Base::TYPE::SOFT_SERIAL)
         {
             serial->begin(baudRate);
-            ID = SoftSerial::COUNT++;
+            n = SoftSerial::COUNT++;
             if (SoftSerial::COUNT >= SoftSerial::MAX) {
                 throw "TO MUCH SoftSerial DEVICE";
             }

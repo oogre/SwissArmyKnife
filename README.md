@@ -65,7 +65,7 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | i/o 	| OSC Address 	    | DATA   	                 | Description                         	          |
 |-----	|-------------	    |--------	                 |-------------------------------------	          |
 | ->  	| /setup/input 	    | (PIN_NUM) Integer          | set (PIN_NUM) to be read as a button           |
-| <-  	| /input/status 	| (ID) Integer               | ESP confirms by reply the (ID) of this button  |
+| <-  	| /input/(ID)/status 	| (ID) Integer               | ESP confirms by reply the (ID) of this button  |
 | <-  	| /input/(ID) 	    | (VALUE) Integer            | At every loop ESP send Button state (VALUE)    |
 | ->  	| /input/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /input/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
@@ -78,7 +78,7 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | i/o 	| OSC Address 	     | DATA   	                  | Description                         	       |
 |-----	|-------------	     |--------	                  |-------------------------------------	       |
 | ->  	| /setup/input_pullup| (PIN_NUM) Integer          | set (PIN_NUM) to be read as a button           |
-| <-  	| /input_pullup/status 	 | (ID) Integer               | ESP confirms by reply the (ID) of this button  |
+| <-  	| /input_pullup/(ID)/status 	 | (ID) Integer               | ESP confirms by reply the (ID) of this button  |
 | <-  	| /input_pullup/(ID) 	     | (VALUE) Integer            | At every loop ESP send Button state (VALUE)    |
 | ->  	| /input_pullup/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /input_pullup/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
@@ -93,7 +93,7 @@ Potentiometer are available on (PIN_NUM) : 32, 33, 34, 35</br>
 | i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
 |-----	|-------------	      |--------	                   |-------------------------------------	             |
 | ->  	| /setup/potentiometer| (PIN_NUM) Integer          | set (PIN_NUM) to be read as a potentiometer         |
-| <-  	| /potentiometer/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this potentiometer|
+| <-  	| /potentiometer/(ID)/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this potentiometer|
 | <-  	| /potentiometer/(ID) 	      | (VALUE) Integer            | At every loop ESP send potentiometer state (VALUE)  |
 | ->  	| /potentiometer/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /potentiometer/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
@@ -107,7 +107,7 @@ Touch sensor are available on (PIN_NUM) : 4, 12, 13, 14, 15, 27, 32, 33</br>
 | i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
 |-----	|-------------	      |--------	                   |-------------------------------------	             |
 | ->  	| /setup/touch        | (PIN_NUM) Integer          | set (PIN_NUM) to be read as a touch sensor          |
-| <-  	| /touch/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this touch sensor |
+| <-  	| /touch/(ID)/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this touch sensor |
 | <-  	| /touch/(ID) 	      | (VALUE) Integer            | At every loop ESP send touch sensor state (VALUE)   |
 | ->  	| /touch/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /touch/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
@@ -121,7 +121,7 @@ RFID sensor are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 2
 | i/o 	| OSC Address 	     | DATA   	                  | Description                         	             |
 |-----	|-------------	     |--------	                  |-------------------------------------	             |
 | ->  	| /setup/rfid        | (PIN_NUM) Integer          | set (PIN_NUM) to be read as a rfid sensor (SofSerial)|
-| <-  	| /rfid/status 	     | (ID) Integer               | ESP confirms by reply the (ID) of this rfid sensor   |
+| <-  	| /rfid/(ID)/status 	     | (ID) Integer               | ESP confirms by reply the (ID) of this rfid sensor   |
 | <-  	| /rfid/tag/(ID) 	 | (VALUE) String             | Send when RFID TAG enter the reader                  |
 | <-  	| /rfid/tag/(ID) 	 |                            | Send when RFID TAG leave the reader                  |
 | ->  	| /rfid/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
@@ -137,7 +137,7 @@ Temperature Humidity sensor are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 1
 | i/o 	| OSC Address 	      | DATA   	                            | Description                         	                       |
 |-----	|-------------	      |--------	                            |-------------------------------------	                       |
 | ->  	| /setup/tempHumidity | (PIN_NUM) Integer                   | set (PIN_NUM) to be read as a tempHumidity sensor            |
-| <-  	| /tempHumidity/status| (ID) Integer                        | ESP confirms by reply the (ID) of this tempHumidity sensor   |
+| <-  	| /tempHumidity/(ID)/status| (ID) Integer                        | ESP confirms by reply the (ID) of this tempHumidity sensor   |
 | <-  	| /tempHumidity/(ID)  | (VALUE_A) Integer (VALUE_B) Integer | At every loop ESP send temperature and Humidity sensor values|
 | ->  	| /tempHumidity/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /tempHumidity/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
@@ -151,7 +151,7 @@ Ultrasonic sensor are available on (TRIG_PIN) & (ECHO_PIN) : 4, 5, 12, 13, 14, 1
 | i/o 	| OSC Address 	  | DATA   	                              | Description                         	                |
 |-----	|-------------	  |--------	                              |-------------------------------------	                |
 | ->  	| /setup/dist     | (TRIG_PIN) Integer (ECHO_PIN) Integer | set (TRIG_PIN) & (ECHO_PIN) to be read as a dist sensor |
-| <-  	| /dist/status 	  | (ID) Integer                          | ESP confirms by reply the (ID) of this dist sensor      |
+| <-  	| /dist/(ID)/status 	  | (ID) Integer                          | ESP confirms by reply the (ID) of this dist sensor      |
 | <-  	| /dist/(ID) 	  | (VALUE) Integer                       | At every loop ESP send distance sensor state (VALUE)    |
 
 ### DigitalOut
@@ -163,8 +163,9 @@ Control this OUTPUT by sending /output/run/(ID) (VALUE)
 | i/o 	| OSC Address 	    | DATA   	        | Description                         	                |
 |-----	|-------------	    |--------	        |-------------------------------------	                |
 | ->  	| /setup/output     | (PIN_NUM) Integer | set (PIN_NUM) to be control as an OUTPUT              |
-| <-  	| /output/status 	| (ID) Integer      | ESP confirms by reply the (ID) of this OUTPUT         |
-| ->  	| /output/run/(ID) 	| (VALUE) Integer   | set (VALUE) to 1 or 0 to turn on/off this OUTPUT      |
+| <-  	| /output/(ID)/status 	| (ID) Integer      | ESP confirms by reply the (ID) of this OUTPUT         |
+| ->  	| /output/(ID)/run 	| (VALUE) Integer   | set (VALUE) to 1 or 0 to turn on/off this OUTPUT      |
+| <-  	| /output/(ID)/run/status 	| (VALUE) Integer   | get (VALUE) to confirm      |
 
 ### PWM
 
@@ -175,8 +176,9 @@ Control this PWM by sending /PWM/run/(ID) (VALUE)
 | i/o 	| OSC Address 	    | DATA   	        | Description                         	             |
 |-----	|-------------	    |--------	        |-------------------------------------	             |
 | ->  	| /setup/PWM        | (PIN_NUM) Integer | set (PIN_NUM) to be control as a PWM               |
-| <-  	| /PWM/status 	    | (ID) Integer      | ESP confirms by reply the (ID) of this PWM         |
-| ->  	| /PWM/run/(ID) 	| (VALUE) Integer   | set (VALUE) from 0 to 255 to fadeInOut this PWM    |
+| <-  	| /PWM/(ID)/status 	    | (ID) Integer      | ESP confirms by reply the (ID) of this PWM         |
+| ->  	| /PWM/(ID)/run 	| (VALUE) Integer   | set (VALUE) from 0 to 255 to fadeInOut this PWM    |
+| <-  	| /PWM/(ID)/run/status	| (VALUE) Integer   | get (VALUE) to confirm      |
 
 ### Servo motor
 
@@ -187,8 +189,9 @@ Control this Servo by sending /servo/pos/(ID) (VALUE)
 | i/o 	| OSC Address 	    | DATA   	        | Description                         	          |
 |-----	|-------------	    |--------	        |-------------------------------------	          |
 | ->  	| /setup/servo      | (PIN_NUM) Integer | set (PIN_NUM) to be control as a servo          |
-| <-  	| /servo/status     | (ID) Integer      | ESP confirms by reply the (ID) of this servo    |
-| ->  	| /servo/pos/(ID) 	| (VALUE) Integer   | set (VALUE) from 0 to 180 to move this servo    |
+| <-  	| /servo(ID)/status     | (ID) Integer      | ESP confirms by reply the (ID) of this servo    |
+| ->  	| /servo/(ID)/pos 	| (VALUE) Integer   | set (VALUE) from 0 to 180 to move this servo    |
+| <-  	| /servo/(ID)/pos/status 	| (VALUE) Integer   | get (VALUE) to confirm      |
 
 ### DC motor
 
@@ -200,9 +203,11 @@ Control this DCmotor by sending /DCmotor/dir/(ID) (VALUE)
 | i/o 	| OSC Address 	      | DATA   	                                            | Description                         	                      |
 |-----	|-------------	      |--------	                                            |-------------------------------------	                      |
 | ->  	| /setup/DCmotor      | (PIN_A) Integer (PIN_B) Integer (PIN_SPEED) Integer | set (PIN_A) (PIN_B) (PIN_SPEED) to be controled as a DCmotor|
-| <-  	| /DCmotor/status     | (ID) Integer      | ESP confirms by reply the (ID) of this DCmotor                                                |
-| ->  	| /DCmotor/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                                                |
-| ->  	| /DCmotor/dir/(ID)   | (VALUE) Integer   | set (VALUE) from (-1) : BACKWARD (0) : STOP (1) : FORWARD                                     |
+| <-  	| /DCmotor/(ID)/status     | (ID) Integer      | ESP confirms by reply the (ID) of this DCmotor                                                |
+| ->  	| /DCmotor/(ID)/speed | (VALUE) Integer   | set (VALUE) from 0 to 100 to set DCmotor speed                                                |
+| <-  	| /DCmotor/(ID)/speed/status | (VALUE) Integer   | get (VALUE) to confirm      |
+| ->  	| /DCmotor/(ID)/dir   | (VALUE) Integer   | set (VALUE) from (-1) : BACKWARD (0) : STOP (1) : FORWARD                                     |
+| <-  	| /DCmotor/(ID)/dir/status | (VALUE) Integer   | get (VALUE) to confirm      |
 
 ### Stepper
 
@@ -216,10 +221,11 @@ Control this Stepper by sending /stepper/dist/(ID) (VALUE)
 | i/o 	| OSC Address 	      | DATA   	                        | Description                         	                    |
 |-----	|-------------	      |--------	                        |-------------------------------------	                    |
 | ->  	| /setup/stepper/2pin | (PIN_DIR) Integer (PIN_STEP) Integer | set (PIN_DIR) (PIN_STEP) to be controled as a Stepper|
-| <-  	| /stepper/status     | (ID) Integer                         | ESP confirms by reply the (ID) of this Stepper       |
-| ->  	| /stepper/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set stepper speed                          |
-| ->  	| /stepper/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
-
+| <-  	| /stepper/(ID)/status     | (ID) Integer                         | ESP confirms by reply the (ID) of this Stepper       |
+| ->  	| /stepper/(ID)/speed | (VALUE) Integer   | set (VALUE) from 0 to 100 to set stepper speed                          |
+| <-  	| /stepper/(ID)/speed/status | (VALUE) Integer   | get (VALUE) to confirm      |
+| ->  	| /stepper/(ID)/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+| <-  	| /stepper/(ID)/dist/status | (VALUE) Integer   | get (VALUE) to confirm      |
 ##### 4 PINS
 
 Stepper are available on (PIN_A), (PIN_B), (PIN_C), (PIN_D) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
@@ -230,9 +236,11 @@ Control this Stepper by sending /stepper/dist/(ID) (VALUE)
 | i/o 	| OSC Address 	      | DATA   	                        | Description                         	                    |
 |-----	|-------------	      |--------	                        |-------------------------------------	                    |
 | ->  	| /setup/stepper/4pin | (PIN_A) Integer (PIN_B) Integer (PIN_C) Integer (PIN_D) Integer | set (PIN_A) (PIN_B) (PIN_C) (PIN_D) to be controled as a Stepper|
-| <-  	| /stepper/status     | (ID) Integer                    | ESP confirms by reply the (ID) of this Stepper       |
-| ->  	| /stepper/speed/(ID) | (VALUE) Integer   | set (VALUE) from 0 to 100 to set stepper speed                          |
-| ->  	| /stepper/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+| <-  	| /stepper/(ID)/status     | (ID) Integer                    | ESP confirms by reply the (ID) of this Stepper       |
+| ->  	| /stepper/(ID)/speed | (VALUE) Integer   | set (VALUE) from 0 to 100 to set stepper speed                          |
+| <-  	| /stepper/(ID)/speed/status | (VALUE) Integer   | get (VALUE) to confirm      |
+| ->  	| /stepper/(ID)/dist/(ID)  | (VALUE) Integer   | set (VALUE) negative values : BACKWARD positive values : FORWARD        |
+| <-  	| /stepper/(ID)/dist/status | (VALUE) Integer   | get (VALUE) to confirm      |
 
 ### Oled
 
@@ -250,7 +258,7 @@ Accelerometer MMA7660 are available on (I2C port) : SDA on 21 SCL on 22</br>
 | i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
 |-----	|-------------	      |--------	                   |-------------------------------------	             |
 | ->  	| /setup/accel        |                            | init accelerometer on the I2C interface             |
-| <-  	| /accel/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this accelerometer|
-| <-  	| /accel/acc(ID) 	  | (VALUE (fVec3)) float, float, float| At every loop ESP send accelerometer state (VALUE)  |
+| <-  	| /accel/(ID)/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this accelerometer|
+| <-  	| /accel/(ID) 	  | (VALUE (fVec3)) float, float, float| At every loop ESP send accelerometer state (VALUE)  |
 | ->  	| /accel/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /accel/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |

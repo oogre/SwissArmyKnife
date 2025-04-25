@@ -171,17 +171,17 @@ void setup() {
   IN com.onMessage("/setup/potentiometer", "i", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::AnalogIn( msg.getInt(0), {
-        [](Devices::Base * target, uint16_t value) {
-          EasyOsc::MessageOSC("/potentiometer/" + String(target->getID())).add(value).send(&com);
+        [](Devices::Base * device, uint16_t value) {
+          EasyOsc::MessageOSC("/potentiometer/" + String(device->getN())).add(value).send(&com);
         }
       }));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/potentiometer/status/").add(id).send(&com).toString();
-      IN com.onMessage("/potentiometer/"+ String(id)+"/delay" , "i", {
+      OUT EasyOsc::MessageOSC("/potentiometer/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/potentiometer/" + String(device->getN()) + "/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::AnalogIn>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/potentiometer/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/potentiometer/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
     }
@@ -197,12 +197,12 @@ void setup() {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::DigitalOut(msg.getInt(0)));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/output/status/").add(id).send(&com).toString();
-      IN com.onMessage("/output/run/" + String(id), "i", {
+      OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/output/" + String(device->getN()) + "/run", "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::DigitalOut>(id);
           device->setValue(msg.getInt(0) == 0 ? LOW : HIGH);
-          OUT EasyOsc::MessageOSC("/output/" + String(id) + "/status/").add(device->getValue()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/run/status/").add(device->getValue()).send(&com).toString();
         }
       });
     }
@@ -217,17 +217,17 @@ void setup() {
   IN com.onMessage("/setup/input", "i", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::Button( msg.getInt(0), INPUT, {
-        [](Devices::Base * target, bool value) {
-          EasyOsc::MessageOSC("/input/" + String(target->getID())).add(value).send(&com);
+        [](Devices::Base * device, bool value) {
+          EasyOsc::MessageOSC("/input/" + String(device->getN())).add(value).send(&com);
         }
       }));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/input/status/").add(id).send(&com).toString();
-      IN com.onMessage("/input/"+ String(id)+"/delay" , "i", {
+      OUT EasyOsc::MessageOSC("/input/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/input/"+ String(device->getN())+"/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Button>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/input/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/input/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
     }
@@ -242,17 +242,17 @@ void setup() {
   IN com.onMessage("/setup/input_pullup", "i", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::Button( msg.getInt(0), INPUT_PULLUP, {
-        [](Devices::Base * target, bool value) {
-          EasyOsc::MessageOSC("/input_pullup/" + String(target->getID())).add(value).send(&com);
+        [](Devices::Base * device, bool value) {
+          EasyOsc::MessageOSC("/input_pullup/" + String(device->getN())).add(value).send(&com);
         }
       }));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/input_pullup/status/").add(id).send(&com).toString();
-      IN com.onMessage("/input_pullup/"+ String(id)+"/delay" , "i", {
+      OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/input_pullup/"+ String(device->getN())+"/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Button>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/input_pullup/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
     }
@@ -267,17 +267,17 @@ void setup() {
   IN com.onMessage("/setup/touch", "i", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::Touch( msg.getInt(0), {
-        [](Devices::Base * target, uint16_t value) {
-          EasyOsc::MessageOSC("/touch/" + String(target->getID())).add(value).send(&com);
+        [](Devices::Base * device, uint16_t value) {
+          EasyOsc::MessageOSC("/touch/" + String(device->getN())).add(value).send(&com);
         }
       }));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/touch/status/").add(id).send(&com).toString();
-      IN com.onMessage("/touch/"+ String(id)+"/delay" , "i", {
+      OUT EasyOsc::MessageOSC("/touch/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/touch/"+ String(device->getN())+"/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Touch>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/touch/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/touch/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
     }
@@ -292,11 +292,11 @@ void setup() {
   IN com.onMessage("/setup/dist", "ii", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::UltraSonic( msg.getInt(0), msg.getInt(1), {
-        [](Devices::Base * target, float value) {
-          EasyOsc::MessageOSC("/dist/" + String(target->getID())).add(value).send(&com);
+        [](Devices::Base * device, float value) {
+          EasyOsc::MessageOSC("/dist/" + String(device->getN())).add(value).send(&com);
         }
       }));
-      OUT EasyOsc::MessageOSC("/dist/status/").add(device->getID()).send(&com).toString();
+      OUT EasyOsc::MessageOSC("/dist/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
     }
   });
 
@@ -310,15 +310,15 @@ void setup() {
   IN com.onMessage("/setup/rfid", "i", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::RFID(msg.getInt(0), {
-        [](Devices::Base * target, String value) {
-          EasyOsc::MessageOSC("/rfid/tag/" + String(target->getID())).add(value).send(&com);
+        [](Devices::Base * device, String value) {
+          EasyOsc::MessageOSC("/rfid/" + String(device->getN()) + "/tag/" + String(device->getN())).add(value).send(&com);
         }
       }, {
-        [](Devices::Base * target, String value) {
-          EasyOsc::MessageOSC("/rfid/tag/" + String(target->getID())).add("").send(&com);
+        [](Devices::Base * device, String value) {
+          EasyOsc::MessageOSC("/rfid/" + String(device->getN()) + "/tag/" + String(device->getN())).add("").send(&com);
         }
       }));
-      OUT EasyOsc::MessageOSC("/rfid/status/").add(device->getID()).send(&com).toString();
+      OUT EasyOsc::MessageOSC("/rfid/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
     }
   });
 
@@ -331,17 +331,17 @@ void setup() {
   IN com.onMessage("/setup/tempHumidity", "i", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::TempHumidity(msg.getInt(0), {
-        [](Devices::Base * target, Devices::TempHumidity::Data value) {
-          EasyOsc::MessageOSC("/tempHumidity/" + String(target->getID())).add(value.temperature).add(value.humidity).send(&com);
+        [](Devices::Base * device, Devices::TempHumidity::Data value) {
+          EasyOsc::MessageOSC("/tempHumidity/" + String(device->getN())).add(value.temperature).add(value.humidity).send(&com);
         }
       }));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/tempHumidity/status/").add(id).send(&com).toString();
-      IN com.onMessage("/tempHumidity/"+ String(id)+"/delay" , "i", {
+      OUT EasyOsc::MessageOSC("/tempHumidity/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/tempHumidity/" + String(device->getN()) + "/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::TempHumidity>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/tempHumidity/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/tempHumidity/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
     }
@@ -359,20 +359,20 @@ void setup() {
   IN com.onMessage("/setup/mpu9250", "", {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::MPU_9250({
-        [](Devices::Base * target, Devices::MPU_9250::OutData data) {
-          OUT EasyOsc::MessageOSC("/mpu9250/temperature").add(data.temperature).send(&com).toString();
-          OUT EasyOsc::MessageOSC("/mpu9250/gyroscope").add(data.gyroscope.x).add(data.gyroscope.y).add(data.gyroscope.z).send(&com).toString();
-          OUT EasyOsc::MessageOSC("/mpu9250/accelerometer").add(data.accelerometer.x).add(data.accelerometer.y).add(data.accelerometer.z).send(&com).toString();
+        [](Devices::Base * device, Devices::MPU_9250::OutData data) {
+          OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/temperature").add(data.temperature).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/gyroscope").add(data.gyroscope.x).add(data.gyroscope.y).add(data.gyroscope.z).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/accelerometer").add(data.accelerometer.x).add(data.accelerometer.y).add(data.accelerometer.z).send(&com).toString();
           //          OUT EasyOsc::MessageOSC("/mpu9250/magnetometer").add(data.magnetometer.x).add(data.magnetometer.y).add(data.magnetometer.z).send(&com).toString();
         }
       }));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/mpu9250/status/").add(id).send(&com).toString();
-      IN com.onMessage("/mpu9250/"+ String(id)+"/delay" , "i", {
+      OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/mpu9250/"+ String(device->getN())+"/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::MPU_9250>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/mpu9250/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
     }
@@ -388,19 +388,20 @@ void setup() {
     <- /stepper/id/dist/status DIST
   */
   auto runStepper = [](uint8_t id) {
-    OUT EasyOsc::MessageOSC("/stepper/status/").add(id).send(&com).toString();
-    IN com.onMessage("/stepper/speed/" + String(id), "i", {
+    auto device = getDevice<Devices::Stepper>(id);
+    OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/status/").add(id).send(&com).toString();
+    IN com.onMessage("/stepper/speed/" + String(device->getN()), "i", {
       [id](OSCMessage & msg) {
         auto device = getDevice<Devices::Stepper>(id);
         device->setSpeed(msg.getInt(0));
-        OUT EasyOsc::MessageOSC("/output/" + String(id) + "/speed/status/").add((int32_t)device->getSpeed()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/speed/status/").add((int32_t)device->getSpeed()).send(&com).toString();
       }
     });
-    IN com.onMessage("/stepper/dist/" + String(id), "i", {
+    IN com.onMessage("/stepper/dist/" + String(device->getN()), "i", {
       [id](OSCMessage & msg) {
         auto device = getDevice<Devices::Stepper>(id);
         device->setDist(msg.getInt(0));
-        OUT EasyOsc::MessageOSC("/output/" + String(id) + "/speed/status/").add((int32_t)device->getDist()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/speed/status/").add((int32_t)device->getDist()).send(&com).toString();
       }
     });
   };
@@ -431,12 +432,12 @@ void setup() {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::PWM(msg.getInt(0)));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/PWM/status/").add(id).send(&com).toString();
-      IN com.onMessage("/PWM/run/" + String(id), "i", {
+      OUT EasyOsc::MessageOSC("/PWM/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/PWM/" + String(device->getN()) + "/run", "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::PWM>(id);
           device->setValue(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/PWM/" + String(id) + "/status/").add(device->getValue()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/PWM/" + String(device->getN()) + "/run/status/").add(device->getValue()).send(&com).toString();
         }
       });
     }
@@ -453,12 +454,12 @@ void setup() {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::Servo(msg.getInt(0)));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/setup/status/").add(id).send(&com).toString();
-      IN com.onMessage("/servo/pos/" + String(id), "i", {
+      OUT EasyOsc::MessageOSC("/setup/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/servo/" + String(device->getN()) + "/pos", "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Servo>(id);
           device->setPos(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/servo/" + String(id) + "/status/").add(device->getPos()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/servo/" + String(device->getN()) + "/pos/status/").add(device->getPos()).send(&com).toString();
         }
       });
     }
@@ -475,20 +476,20 @@ void setup() {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::DCMotor(msg.getInt(0), msg.getInt(1), msg.getInt(2)));
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/DCmotor/status/").add(id).send(&com).toString();
-      IN com.onMessage("/DCmotor/speed/" + String(id), "i", {
+      OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/DCmotor/speed/" + String(device->getN()), "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::DCMotor>(id);
           device->setSpeed(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/DCmotor/" + String(id) + "/speed/status/").add(device->getSpeed()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/speed/status/").add(device->getSpeed()).send(&com).toString();
         }
       });
-      IN com.onMessage("/DCmotor/dir/" + String(id), "i", {
+      IN com.onMessage("/DCmotor/dir/" + String(device->getN()), "i", {
         [id](OSCMessage & msg) {
           Devices::DCMotor::DIRECTION dir = (Devices::DCMotor::DIRECTION) Tools::sign(msg.getInt(0));
           auto device = getDevice<Devices::DCMotor>(id);
           device->setDir(dir);
-          OUT EasyOsc::MessageOSC("/DCmotor/" + String(id) + "/dir/status/").add(device->getDir()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/dir/status/").add(device->getDir()).send(&com).toString();
         }
       });
     }
@@ -505,12 +506,12 @@ void setup() {
     [](OSCMessage & msg) {
       auto device = addDevice(new Devices::Oled());
       uint8_t id = device->getID();
-      OUT EasyOsc::MessageOSC("/display/status/").add(id).send(&com).toString();
-      IN com.onMessage("/display/run", "b", {
+      OUT EasyOsc::MessageOSC("/display/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/display/" + String(device->getN()) + "/run", "b", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Oled>(id);
           msg.getBlob(0, device->getData(), device->getBufferLen());
-          OUT EasyOsc::MessageOSC("/display/run/status").add(id).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/display/" + String(device->getN()) + "/run/status").add(device->getN()).send(&com).toString();
         }
       });
     }
@@ -525,17 +526,17 @@ void setup() {
  IN com.onMessage("/setup/accel", "", {
   [](OSCMessage & msg) {
     auto device = addDevice(new Devices::Accelerometer({
-      [](Devices::Base * target, Devices::Accelerometer::Accel value) {
-        EasyOsc::MessageOSC("/accel/acc/" + String(target->getID())).add(value.acc.x).add(value.acc.y).add(value.acc.z).send(&com);
+      [](Devices::Base * device, Devices::Accelerometer::Accel value) {
+        EasyOsc::MessageOSC("/accel/" + String(device->getN())).add(value.acc.x).add(value.acc.y).add(value.acc.z).send(&com);
       }
     }));
     uint8_t id = device->getID();
-    OUT EasyOsc::MessageOSC("/accel/status/").add(id).send(&com).toString();
-      IN com.onMessage("/accel/"+ String(id)+"/delay" , "i", {
+    OUT EasyOsc::MessageOSC("/accel/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
+      IN com.onMessage("/accel/"+ String(device->getN())+"/delay" , "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Accelerometer>(id);
           device->setDelay(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/accel/" + String(id) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/accel/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
         }
       });
   }

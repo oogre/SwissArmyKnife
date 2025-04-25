@@ -16,14 +16,13 @@ namespace Devices {
         uint8_t * data;
         const static uint8_t MAX = 2;
         static uint8_t COUNT;
-        uint8_t ID;
         uint16_t len  = 0;
     public :
         Oled(uint8_t addr = 0x3C)
         : Devices::Base(Devices::Base::TYPE::OLED),
             Adafruit_SSD1306 (128, 64)
         {
-            ID = Oled::COUNT++;
+            n = Oled::COUNT++;
             if (Oled::COUNT > Oled::MAX) {
                 throw "TO MUCH Oled DEVICE";
             }

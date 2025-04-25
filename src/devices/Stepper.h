@@ -13,7 +13,6 @@ namespace Devices {
     class Stepper : public Base {
         const static uint8_t MAX = 8;
         static uint8_t COUNT;
-        uint8_t ID;
         uint8_t step_number = 0;
         uint8_t STEPPER_PIN_1 = 255;
         uint8_t STEPPER_PIN_2 = 255;
@@ -39,7 +38,7 @@ namespace Devices {
             if (!TWO_PIN_CONTROL) pinMode(STEPPER_PIN_3, OUTPUT);
             if (!TWO_PIN_CONTROL) pinMode(STEPPER_PIN_4, OUTPUT);
 
-            ID = Stepper::COUNT++;
+            n = Stepper::COUNT++;
             if (Stepper::COUNT > Stepper::MAX) {
                 throw "TO MUCH Stepper DEVICE";
             }

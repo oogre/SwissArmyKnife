@@ -13,7 +13,6 @@ namespace Devices {
     class MPU_9250 : public Base {
         const static uint8_t MAX = 2;
         static uint8_t COUNT;
-        uint8_t ID;
 
         const static uint8_t IMU_ADDRESS = 0x68;
         const static uint8_t MAG_ADDRESS = 0x0C;
@@ -153,7 +152,7 @@ namespace Devices {
         : callback(callback),
             Base(Base::TYPE::MPU9250)
         {
-            ID = MPU_9250::COUNT++;
+            n = MPU_9250::COUNT++;
             if (MPU_9250::COUNT >= MPU_9250::MAX) {
                 throw "TO MUCH MPU9250 DEVICE";
             }
@@ -178,10 +177,6 @@ namespace Devices {
                 lastReadAt = millis();
                 Base::run();
             }
-        }
-        virtual uint8_t getID(bool deep = false) override {
-            if (deep) return Base::getID(deep);
-            return ID;
         }
 
         void setDelay(uint32_t time){

@@ -10,7 +10,6 @@ namespace Devices {
         const static float SOUND_SPEED;
         const static uint8_t MAX = 8;
         static uint8_t COUNT;
-        uint8_t ID;
         uint8_t trig;
         uint8_t echo;
         RunHandler<float> callback;
@@ -21,7 +20,7 @@ namespace Devices {
             callback(callback),
             Base(Base::TYPE::ULTRA_SONIC)
         {
-            ID = UltraSonic::COUNT++;
+            n = UltraSonic::COUNT++;
             if (UltraSonic::COUNT > UltraSonic::MAX) {
                 throw "TO MUCH ULTRASONIC DEVICE";
             }

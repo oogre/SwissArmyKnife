@@ -10,7 +10,6 @@ namespace Devices {
     class RFID : public SoftSerial {
         const static uint8_t MAX = 8;
         static uint8_t COUNT;
-        uint8_t ID;
         RunHandler<String> onEnter;
         RunHandler<String> onLeave;
         String oldValue = "";
@@ -24,7 +23,7 @@ namespace Devices {
         RFID::onUpdate
         })
         {
-            ID = RFID::COUNT++;
+            n = RFID::COUNT++;
             if (RFID::COUNT > RFID::MAX) {
                 throw "TO MUCH RFID DEVICE";
             }

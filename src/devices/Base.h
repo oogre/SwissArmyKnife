@@ -10,7 +10,7 @@ namespace Devices {
       const static uint8_t MAX = 255;
       static uint8_t COUNT;
       uint8_t ID;
-
+      uint8_t n;
     public :
 
       template<class T>
@@ -38,9 +38,12 @@ namespace Devices {
       }
       virtual ~Base() {}
       virtual void run() {};
-      virtual uint8_t getID(bool deep = false) {
+      virtual uint8_t getID() {
         return ID;
       }
+      virtual uint8_t getN() {
+        return n;
+    }
   };
   uint8_t Base::COUNT = 0;
 }

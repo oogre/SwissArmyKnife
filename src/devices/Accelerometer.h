@@ -21,7 +21,6 @@ namespace Devices {
     private:
         const static uint8_t MAX = 2;
         static uint8_t COUNT;
-        uint8_t ID;
         RunHandler<Accel> callback;
         MMA7660 accelemeter;
         uint32_t lastReadAt = 0;
@@ -32,7 +31,7 @@ namespace Devices {
         callback(callback),
         Base(Base::TYPE::ACCELEROMETER)
         {
-            ID = Accelerometer::COUNT++;
+            n = Accelerometer::COUNT++;
             if (Accelerometer::COUNT > Accelerometer::MAX) {
                 throw "TO MUCH Accelerometer DEVICE";
             }

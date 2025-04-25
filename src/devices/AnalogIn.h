@@ -9,7 +9,6 @@ namespace Devices {
     class AnalogIn : public Base {
         const static uint8_t MAX = 4;
         static uint8_t COUNT;
-        uint8_t ID;
         uint8_t pin;
         RunHandler<uint16_t> callback;
         uint32_t lastReadAt = 0;
@@ -20,7 +19,7 @@ namespace Devices {
             callback(callback),
             Base(Base::TYPE::ANALOG_IN)
         {
-            ID = AnalogIn::COUNT++;
+            n = AnalogIn::COUNT++;
             if (AnalogIn::COUNT > AnalogIn::MAX) {
                 throw "TO MUCH AnalogIn DEVICE";
             }
@@ -38,10 +37,6 @@ namespace Devices {
         }
         uint32_t getDelay(){
             return readDelay;
-        }
-        virtual uint8_t getID(bool deep = false) override {
-            if(deep) return Base::getID(deep);
-            return ID;
         }
     };
     uint8_t AnalogIn::COUNT = 0;

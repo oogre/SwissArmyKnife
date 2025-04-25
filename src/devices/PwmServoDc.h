@@ -13,7 +13,6 @@ namespace Devices {
     class PwmServoDc : public Base {
         const static uint8_t MAX = 8;
         static uint8_t COUNT;
-        uint8_t ID;
     protected :
         uint8_t pin;
         uint8_t ch;
@@ -23,7 +22,7 @@ namespace Devices {
             pin(pin),
             ch(channel)
         {
-            ID = PwmServoDc::COUNT++;
+            n = PwmServoDc::COUNT++;
             if (PwmServoDc::COUNT > PwmServoDc::MAX) {
                 throw "TO MUCH PwmServoDc DEVICE";
             }

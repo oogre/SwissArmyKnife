@@ -9,7 +9,6 @@ namespace Devices {
     class Touch : public Base {
         const static uint8_t MAX = 8;
         static uint8_t COUNT;
-        uint8_t ID;
         uint8_t pin;
         uint32_t lastReadAt = 0;
         uint32_t readDelay = 100;
@@ -20,7 +19,7 @@ namespace Devices {
             callback(callback),
             Base(Base::TYPE::TOUCH)
         {
-            ID = Touch::COUNT++;
+            n = Touch::COUNT++;
             if (Touch::COUNT > Touch::MAX) {
                 throw "TO MUCH Touch DEVICE";
             }

@@ -9,7 +9,6 @@ namespace Devices {
     class DigitalOut : public Base {
         const static uint8_t MAX = 16;
         static uint8_t COUNT;
-        uint8_t ID;
         uint8_t pin;
         uint8_t value;
     public :
@@ -17,7 +16,7 @@ namespace Devices {
         : pin(pin),
             Base(Base::TYPE::DIGITAL_OUT)
         {
-            ID = DigitalOut::COUNT++;
+            n = DigitalOut::COUNT++;
             if (DigitalOut::COUNT > DigitalOut::MAX) {
                 throw "TO MUCH DigitalOut DEVICE";
             }

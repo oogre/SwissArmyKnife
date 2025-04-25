@@ -16,7 +16,6 @@ namespace Devices {
     private :
         const static uint8_t MAX = 4;
         static uint8_t COUNT;
-        uint8_t ID;
         DHT * dht;
 
         RunHandler<Data> callback;
@@ -28,7 +27,7 @@ namespace Devices {
             callback(callback),
             Base(Base::TYPE::TEMPERATURE_HUMIDITY)
         {
-            ID = TempHumidity::COUNT++;
+            n = TempHumidity::COUNT++;
             if (TempHumidity::COUNT > TempHumidity::MAX) {
                 throw "TO MUCH TempHumidity DEVICE";
             }
