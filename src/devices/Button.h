@@ -37,6 +37,13 @@ namespace Devices {
                 Base::run();
             }
         }
+
+        void setDelay(uint32_t time){
+            readDelay = time;
+        }
+        uint32_t getDelay(){
+            return readDelay;
+        }
     };
     uint8_t Button::COUNT = 0;
 }

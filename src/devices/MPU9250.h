@@ -183,6 +183,13 @@ namespace Devices {
             if (deep) return Base::getID(deep);
             return ID;
         }
+
+        void setDelay(uint32_t time){
+            readDelay = time;
+        }
+        uint32_t getDelay(){
+            return readDelay;
+        }
     };
     uint8_t MPU_9250::COUNT = 0;
     const float MPU_9250::G = 9.80665f;

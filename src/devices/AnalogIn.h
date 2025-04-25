@@ -33,6 +33,12 @@ namespace Devices {
                 Base::run();
             }
         }
+        void setDelay(uint32_t time){
+            readDelay = time;
+        }
+        uint32_t getDelay(){
+            return readDelay;
+        }
         virtual uint8_t getID(bool deep = false) override {
             if(deep) return Base::getID(deep);
             return ID;

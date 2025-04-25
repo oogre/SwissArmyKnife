@@ -40,6 +40,13 @@ namespace Devices {
             }
         }
 
+        void setDelay(uint32_t time){
+            readDelay = time;
+        }
+        uint32_t getDelay(){
+            return readDelay;
+        }
+
         static void onUpdate(Base * target, String value) {
             RFID* self = (RFID*)target;
             if (self->oldValue == "" && value != "") {

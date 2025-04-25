@@ -188,6 +188,10 @@ func _parseArguments(theBytes):
 				myIndex += 4;
 				myArguments[myTagIndex] = theBytes.slice(myIndex, myIndex+myLen)
 				myIndex += myLen + (_align(myLen) % 4)
+			0x70: # false boolean
+				myArguments[myTagIndex] = 0
+			0x84: # True boolean
+				myArguments[myTagIndex] = 1
 		myTagIndex+=1
 	_myData = _myData.slice(0, myIndex)
 	return myArguments

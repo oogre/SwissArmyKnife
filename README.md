@@ -67,6 +67,10 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | ->  	| /setup/input 	    | (PIN_NUM) Integer          | set (PIN_NUM) to be read as a button           |
 | <-  	| /input/status 	| (ID) Integer               | ESP confirms by reply the (ID) of this button  |
 | <-  	| /input/(ID) 	    | (VALUE) Integer            | At every loop ESP send Button state (VALUE)    |
+| ->  	| /input/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /input/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
+
+
 
  
 ##### INPUT_PULLUP MODE
@@ -74,8 +78,11 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | i/o 	| OSC Address 	     | DATA   	                  | Description                         	       |
 |-----	|-------------	     |--------	                  |-------------------------------------	       |
 | ->  	| /setup/input_pullup| (PIN_NUM) Integer          | set (PIN_NUM) to be read as a button           |
-| <-  	| /input/status 	 | (ID) Integer               | ESP confirms by reply the (ID) of this button  |
-| <-  	| /input/(ID) 	     | (VALUE) Integer            | At every loop ESP send Button state (VALUE)    |
+| <-  	| /input_pullup/status 	 | (ID) Integer               | ESP confirms by reply the (ID) of this button  |
+| <-  	| /input_pullup/(ID) 	     | (VALUE) Integer            | At every loop ESP send Button state (VALUE)    |
+| ->  	| /input_pullup/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /input_pullup/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
+
 
 ### Potentiometer
 
@@ -86,8 +93,10 @@ Potentiometer are available on (PIN_NUM) : 32, 33, 34, 35</br>
 | i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
 |-----	|-------------	      |--------	                   |-------------------------------------	             |
 | ->  	| /setup/potentiometer| (PIN_NUM) Integer          | set (PIN_NUM) to be read as a potentiometer         |
-| <-  	| /input/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this potentiometer|
-| <-  	| /input/(ID) 	      | (VALUE) Integer            | At every loop ESP send potentiometer state (VALUE)  |
+| <-  	| /potentiometer/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this potentiometer|
+| <-  	| /potentiometer/(ID) 	      | (VALUE) Integer            | At every loop ESP send potentiometer state (VALUE)  |
+| ->  	| /potentiometer/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /potentiometer/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
 ### Touch/Capasitive sensor
 
@@ -100,6 +109,8 @@ Touch sensor are available on (PIN_NUM) : 4, 12, 13, 14, 15, 27, 32, 33</br>
 | ->  	| /setup/touch        | (PIN_NUM) Integer          | set (PIN_NUM) to be read as a touch sensor          |
 | <-  	| /touch/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this touch sensor |
 | <-  	| /touch/(ID) 	      | (VALUE) Integer            | At every loop ESP send touch sensor state (VALUE)   |
+| ->  	| /touch/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /touch/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
 ### RFID
 
@@ -113,6 +124,8 @@ RFID sensor are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 2
 | <-  	| /rfid/status 	     | (ID) Integer               | ESP confirms by reply the (ID) of this rfid sensor   |
 | <-  	| /rfid/tag/(ID) 	 | (VALUE) String             | Send when RFID TAG enter the reader                  |
 | <-  	| /rfid/tag/(ID) 	 |                            | Send when RFID TAG leave the reader                  |
+| ->  	| /rfid/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /rfid/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
 ### Temperature Humidity
 
@@ -126,6 +139,8 @@ Temperature Humidity sensor are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 1
 | ->  	| /setup/tempHumidity | (PIN_NUM) Integer                   | set (PIN_NUM) to be read as a tempHumidity sensor            |
 | <-  	| /tempHumidity/status| (ID) Integer                        | ESP confirms by reply the (ID) of this tempHumidity sensor   |
 | <-  	| /tempHumidity/(ID)  | (VALUE_A) Integer (VALUE_B) Integer | At every loop ESP send temperature and Humidity sensor values|
+| ->  	| /tempHumidity/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /tempHumidity/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
 ### Ultrasonic/Distance Sensor
 
@@ -237,3 +252,5 @@ Accelerometer MMA7660 are available on (I2C port) : SDA on 21 SCL on 22</br>
 | ->  	| /setup/accel        |                            | init accelerometer on the I2C interface             |
 | <-  	| /accel/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this accelerometer|
 | <-  	| /accel/acc(ID) 	  | (VALUE (fVec3)) float, float, float| At every loop ESP send accelerometer state (VALUE)  |
+| ->  	| /accel/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /accel/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
