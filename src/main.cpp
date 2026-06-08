@@ -227,34 +227,9 @@ void setup() {
         ESP.restart();
       }
     });
-
-    /*
-        -> /burn
-        record devices config over reboot
-    */
-    IN com.onMessage("/burn", "", {
-      [](OSCMessage & msg) {
-        String _devices = "";
-        for (auto device : devices) {
-          _devices += device->toString() + "\n";
-        }
-        prefs.putString("burn", _devices);
-      }
-    });
-
-    /*
-        -> /clear
-        destroy devices config over reboot
-    */
-    IN com.onMessage("/clear", "", {
-      [](OSCMessage & msg) {
-        prefs.remove("burn");
-        ESP.restart();
-      }
-    });
   }
   
-  { //POTENTIOMETER
+  { // POTENTIOMETER
     /*
       POTENTIOMETER
       -> /setup/potentiometer [PIN]
@@ -874,6 +849,31 @@ void setup() {
   }
   
   { // burn
+    /*
+        -> /burn
+        record devices config over reboot
+    */
+    IN com.onMessage("/burn", "", {
+      [](OSCMessage & msg) {
+        String _devices = "";
+        for (auto device : devices) {
+          _devices += device->toString() + "\n";
+        }
+        prefs.putString("burn", _devices);
+      }
+    });
+
+    /*
+        -> /clear
+        destroy devices config over reboot
+    */
+    IN com.onMessage("/clear", "", {
+      [](OSCMessage & msg) {
+        prefs.remove("burn");
+        ESP.restart();
+      }
+    });
+
     String burned = prefs.getString("burn", "");
     Serial.println(burned);
     if(burned != ""){
