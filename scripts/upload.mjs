@@ -7,10 +7,11 @@ deviceName = deviceName.replace("\n", "");
 
 console.log(`DEVICE NAME IS : ${deviceName}`);
 
+await $`cp ../src/main.cpp ../src/main.cpp.backup`;
 let {stdout:maincpp} = await $`cat ../src/main.cpp`;
-await $`mv ../src/main.cpp ../src/main.cpp.backup`;
 maincpp = maincpp.replace("__DEVICE_NAME__", deviceName);
 await $`echo ${maincpp} > ../src/main.cpp`;
+
 const p = $`platformio run --target upload --project-dir ../`;
 for await (const chunk of p.stdout) {
   process.stdout.write(chunk)

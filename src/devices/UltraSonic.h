@@ -29,6 +29,7 @@ namespace Devices {
         }
         virtual ~UltraSonic() override {}
         virtual void run() override {
+            if(!_active)return;
             digitalWrite(trig, LOW);
             delayMicroseconds(2);
             digitalWrite(trig, HIGH);
@@ -37,6 +38,11 @@ namespace Devices {
             long duration = pulseIn(echo, HIGH);
             callback(this, duration * SOUND_SPEED * 0.5f);
             Base::run();
+        }
+
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)trig) + " " + String(echo) + " " + String(_active) ;
         }
     };
     uint8_t UltraSonic::COUNT = 0;

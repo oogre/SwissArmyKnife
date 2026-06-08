@@ -38,12 +38,16 @@ WiFi configuration resist to restart. This config is stored to the EEPROM. Every
 | i/o 	| OSC Address 	    | DATA   	                        | Description                         	|
 |-----	|-------------	    |--------	                        |-------------------------------------	|
 | ->  	| *           	    | *      	                        | every OSC command strob LED-BUILTIN 	|
-| ->  	| /setup/SSID 	    | String                            | set WiFi name                       	|
-| ->  	| /setup/PWD  	    | String 	                        | set WiFi password                   	|
-| ->    | /setup/inPort     | Integer                           | set input port                        |
-| ->    | /setup/outPort    | Integer                           | set output port                       |
-| ->    | /setup/outIP      | Integer Integer Integer Integer   | set output IP                         |
-| ->    | /setup/conType    | Integer                           | (0) : Access Point (1) : Regular WiFi |
+| ->  	| /setup/SSID 	    | String                            | set WiFi name (default:name of a blade)|
+| ->  	| /setup/PWD  	    | String 	                        | set WiFi password  (default:)  	    |
+| ->  	| /setup/hostname  	| String 	                        | set Hostname (default:swissArmyKnife) |
+| ->    | /setup/inPort     | Integer                           | set input port (default:8888)         |
+| ->    | /setup/outPort    | Integer                           | set output port (default:9999)        |
+| ->    | /setup/outIP      | Integer Integer Integer Integer   | set output IP (default:192.168.4.255) |
+| ->    | /setup/localIP    | Integer Integer Integer Integer   | set local IP (default:192.168.4.1)    |
+| ->    | /setup/gateway    | Integer Integer Integer Integer   | set gateway IP (default:192.168.4.1)  |
+| ->    | /setup/subnet     | Integer Integer Integer Integer   | set subnet IP (default:255.255.255.0) |
+| ->    | /setup/conType    | Integer                           | (0) : Access Point (1) : Regular WiFi (default:0) |
 | ->    | /setup/wait       | Integer                           | use to slow down the loop with a delay|
 | ->    | /setup/default    |                                   | reset configuration to default        |
 | ->    | /restart          |                                   | restart ESP to valid WiFi conf        |

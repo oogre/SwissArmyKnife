@@ -52,6 +52,11 @@ namespace Devices {
         int getValue() {
             return value;
         }
+
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)pin) ;
+        }
     };
 
     class Servo : public PwmServoDc {
@@ -67,11 +72,17 @@ namespace Devices {
         int getPos() {
             return value;
         }
+
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)pin) ;
+        }
     };
 
     class DCMotor : public PwmServoDc {
         uint8_t pinA;
         uint8_t pinB;
+        uint8_t pinSpeed;
         uint8_t speed;
         uint8_t dir;
     public :
@@ -79,6 +90,7 @@ namespace Devices {
         DCMotor(uint8_t pinA, uint8_t pinB, uint8_t pinSpeed)
         : pinA(pinA),
             pinB(pinB),
+            pinSpeed(pinSpeed),
             PwmServoDc(pinSpeed, pwm.attach(pinSpeed), Base::TYPE::DC_MOTO)
         {
             pinMode(pinA, OUTPUT);
@@ -112,6 +124,12 @@ namespace Devices {
         }
         uint8_t getDir() {
             return dir;
+        }
+
+
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)pinA) + " " + String((int)pinB) + " " + String((int)pinSpeed);
         }
 
     };

@@ -11,8 +11,8 @@ namespace Devices {
       static uint8_t COUNT;
       uint8_t ID;
       uint8_t n;
+      bool _active = true;
     public :
-
       template<class T>
       struct RunHandler {
         using RunHandlerFn = std::function<void(Base*, T)>;
@@ -25,7 +25,7 @@ namespace Devices {
       };
 
       enum TYPE {
-        NONE, ULTRA_SONIC, BUTTON, SOFT_SERIAL, MPU9250, ANALOG_IN, TEMPERATURE_HUMIDITY, DIGITAL_OUT, TOUCH, PWM, SERVO, STEPPER, DC_MOTO, OLED, RFID, ACCELEROMETER
+        NONE, ENCODER, ULTRA_SONIC, BUTTON, SOFT_SERIAL, MPU9250, ANALOG_IN, TEMPERATURE_HUMIDITY, DIGITAL_OUT, TOUCH, PWM, SERVO, STEPPER, DC_MOTO, OLED, RFID, ACCELEROMETER, STRIP
       };
       TYPE type;
       Base(TYPE type = TYPE::NONE)
@@ -43,7 +43,17 @@ namespace Devices {
       }
       virtual uint8_t getN() {
         return n;
-    }
+      }
+      virtual void setActive(uint32_t active){
+        _active = active == 1;
+      }
+      uint32_t getActive(){
+        return _active ? 1 : 0;
+      }
+
+      virtual String toString(){
+        return String((int)type);
+      }
   };
   uint8_t Base::COUNT = 0;
 }

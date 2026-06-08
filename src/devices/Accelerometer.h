@@ -25,6 +25,7 @@ namespace Devices {
         MMA7660 accelemeter;
         uint32_t lastReadAt = 0;
         uint32_t readDelay = 33;
+        bool _active = true;
     public :
         Accelerometer(RunHandler<Accel> callback)
         : 
@@ -39,6 +40,7 @@ namespace Devices {
         }
         virtual ~Accelerometer() override {}
         virtual void run() override {
+            if(!_active)return;
             if (millis() - lastReadAt > readDelay) {
                 int8_t x;
                 int8_t y;
@@ -60,6 +62,13 @@ namespace Devices {
         }
         uint32_t getDelay(){
             return readDelay;
+        }
+
+        virtual void setActive(uint32_t active) override {
+            Base::setActive(active);
+            if(_active){
+                accelemeter.init();
+            }
         }
     };
     uint8_t Accelerometer::COUNT = 0;

@@ -161,6 +161,7 @@ namespace Devices {
         }
         virtual ~MPU_9250() override {}
         virtual void run() override {
+            if(!_active)return;
             if (millis() - lastReadAt > readDelay) {
                 if (isImuReady()) {
                     readRawImu();
@@ -185,6 +186,14 @@ namespace Devices {
         uint32_t getDelay(){
             return readDelay;
         }
+        
+        virtual void setActive(uint32_t active) override {
+            Base::setActive(active);
+            if(_active){
+                init();
+            }
+        }
+
     };
     uint8_t MPU_9250::COUNT = 0;
     const float MPU_9250::G = 9.80665f;

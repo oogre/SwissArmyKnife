@@ -1,6 +1,8 @@
 #include <vector>
 #include <memory>
 
+
+#include "Encoder.h"
 #include "AnalogIn.h"
 #include "DigitalOut.h"
 #include "Button.h"
@@ -13,6 +15,7 @@
 #include "MPU9250.h"
 #include "Oled.h"
 #include "Accelerometer.h"
+#include "Strip.h"
 
 
 std::vector<std::shared_ptr<Devices::Base>> devices;

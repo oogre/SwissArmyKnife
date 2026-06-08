@@ -26,6 +26,7 @@ namespace Devices {
         }
         virtual ~Touch() override {}
         virtual void run() override {
+            if(!_active)return;
             if (millis() - lastReadAt > readDelay) {
                 callback(this, touchRead(pin));
                 lastReadAt = millis();
@@ -38,6 +39,10 @@ namespace Devices {
         }
         uint32_t getDelay(){
             return readDelay;
+        }
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)pin) + " " + String(readDelay) + " " + String(_active) ;
         }
     };
     uint8_t Touch::COUNT = 0;

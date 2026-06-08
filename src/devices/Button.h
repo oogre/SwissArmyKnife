@@ -11,6 +11,7 @@ namespace Devices {
         static uint8_t COUNT;
         uint8_t pin;
         uint8_t mode;
+        bool oldValue;
         uint32_t lastReadAt = 0;
         uint32_t readDelay = 100;
         RunHandler<bool> callback;
@@ -26,12 +27,17 @@ namespace Devices {
                 throw "TO MUCH Button DEVICE";
             }
             pinMode(pin, mode); // Sets the trigPin as an Output
+            oldValue = mode == INPUT ? digitalRead(pin) : !digitalRead(pin);
         }
         virtual ~Button() override {}
         virtual void run() override {
+            if(!_active)return;
             if (millis() - lastReadAt > readDelay) {
-                bool value = digitalRead(pin);
-                callback(this, mode == INPUT ? value : !value);
+                bool value = mode == INPUT ? digitalRead(pin) : !digitalRead(pin);
+                if(value != oldValue){
+                    callback(this, value);
+                }
+                oldValue = value;
                 lastReadAt = millis();
                 Base::run();
             }
@@ -42,6 +48,10 @@ namespace Devices {
         }
         uint32_t getDelay(){
             return readDelay;
+        }
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)pin) + " " + String(mode) + " " + String(readDelay) + " " + String(_active) ;
         }
     };
     uint8_t Button::COUNT = 0;

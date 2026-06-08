@@ -31,6 +31,10 @@ namespace Devices {
         uint8_t getValue() {
             return value;
         }
+
+        virtual String toString() override {
+            return Base::toString() + " " + String((int)pin);
+        }
     };
     uint8_t DigitalOut::COUNT = 0;
 }

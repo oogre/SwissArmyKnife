@@ -35,6 +35,7 @@ namespace Devices {
         }
         virtual ~TempHumidity() override {}
         virtual void run() override {
+            if(!_active)return;
             if (millis() - lastReadAt > readDelay) {
                 callback(this, Data{dht->readHumidity(), dht->readTemperature()});
                 lastReadAt = millis();
@@ -47,6 +48,13 @@ namespace Devices {
         }
         uint32_t getDelay(){
             return readDelay;
+        }
+        
+        virtual void setActive(uint32_t active) override {
+            Base::setActive(active);
+            if(_active){
+                dht->begin();
+            }
         }
     };
     uint8_t TempHumidity::COUNT = 0;
