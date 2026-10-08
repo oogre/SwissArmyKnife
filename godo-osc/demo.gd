@@ -3,7 +3,9 @@ extends Node
 var osc:OSC
 
 func _init():
-	osc = OSC.new(9999, 8888, "127.0.0.1") # inPort, outPort, outIP
+	#osc = OSC.new(9999, 8888, "127.0.0.1") # inPort, outPort, outIP
+
+	osc = OSC.new() # inPort, outPort, outIP
 	add_child(osc)	
 
 	# Message input Handler 

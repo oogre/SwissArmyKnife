@@ -1,5 +1,4 @@
 #include <Arduino.h>
-
 #include "Streaming.h"
 #include <Preferences.h>
 #include "Tools.h"
@@ -50,7 +49,16 @@ void setup() {
 
   com = EasyOsc(conf);
   Serial.println(com.toString());
-  com.begin();
+  com.begin([](){
+    Serial.print(".");
+    pinMode(2, OUTPUT);
+    digitalWrite(2, !digitalRead(2));
+    return true;
+  }, [](){
+    pinMode(2, OUTPUT);
+    digitalWrite(2, 0);
+    return true;
+  });
   
   /* ON RECEIVING VALID OSC MESSAGE BLINK BUILTIN_LED */
   IN com.onMessage("*", {
@@ -199,21 +207,12 @@ void setup() {
     });
 
     /*
-        -> /setup/default
+        -> /reset
         reset esp connection conf and restart
     */
-    IN com.onMessage("/setup/default", "", {
+    IN com.onMessage("/reset", "", {
       [](OSCMessage & msg) {
-        prefs.remove("conType");
-        prefs.remove("subnet");
-        prefs.remove("gateway");
-        prefs.remove("localIP");
-        prefs.remove("outIP");
-        prefs.remove("outPort");
-        prefs.remove("inPort");
-        prefs.remove("hostname");
-        prefs.remove("PWD");
-        prefs.remove("SSID");
+        prefs.clear();
         ESP.restart();
       }
     });
@@ -249,14 +248,14 @@ void setup() {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::AnalogIn>(id);
             device->setDelay(msg.getInt(0));
-            OUT EasyOsc::MessageOSC("/potentiometer/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/potentiometer/" + String(device->getN()) + "/delay/status/").add((uint16_t)device->getDelay()).send(&com).toString();
           }
         });
         IN com.onMessage("/potentiometer/"+ String(device->getN())+"/active" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::AnalogIn>(id);
             device->setActive(msg.getInt(0));
-            OUT EasyOsc::MessageOSC("/potentiometer/" + String(device->getN()) + "/active/status").add((uint16_t)device->getActive()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/potentiometer/" + String(device->getN()) + "/active/status/").add((uint16_t)device->getActive()).send(&com).toString();
           }
         });
       }
@@ -290,7 +289,7 @@ void setup() {
           }
         }));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/encoder/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/encoder/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/encoder/" + String(device->getN()) + "/delay" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Encoder>(id);
@@ -332,12 +331,12 @@ void setup() {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::DigitalOut(msg.getInt(0)));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/output/" + String(device->getN()) + "/run", "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::DigitalOut>(id);
             device->setValue(msg.getInt(0) == 0 ? LOW : HIGH);
-            OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/run/status/").add(device->getValue()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/run/status").add(device->getValue()).send(&com).toString();
           }
         });
       }
@@ -355,12 +354,12 @@ void setup() {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::Strip(msg.getInt(1), msg.getInt(0)));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/strip/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/strip/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/strip/" + String(device->getN()) + "/run", "iiiii", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Strip>(id);
             device->setValue(msg.getInt(0), msg.getInt(1), msg.getInt(2), msg.getInt(3), msg.getInt(4));
-            OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/strip/status/").add(1).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/output/" + String(device->getN()) + "/strip/status").add(1).send(&com).toString();
           }
         });
       }
@@ -382,7 +381,7 @@ void setup() {
           }
         }));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/input/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/input/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/input/"+ String(device->getN())+"/delay" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Button>(id);
@@ -429,7 +428,7 @@ void setup() {
           }
         }));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/input_pullup/"+ String(device->getN())+"/delay" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Button>(id);
@@ -476,7 +475,7 @@ void setup() {
           }
         }));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/touch/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/touch/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/touch/"+ String(device->getN())+"/delay" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Touch>(id);
@@ -522,7 +521,7 @@ void setup() {
             EasyOsc::MessageOSC("/dist/" + String(device->getN())).add(value).send(&com);
           }
         }));
-        OUT EasyOsc::MessageOSC("/dist/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/dist/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
       }
     });
   }
@@ -546,7 +545,7 @@ void setup() {
             EasyOsc::MessageOSC("/rfid/" + String(device->getN()) + "/tag/" + String(device->getN())).add("").send(&com);
           }
         }));
-        OUT EasyOsc::MessageOSC("/rfid/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/rfid/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
       }
     });
   }
@@ -566,7 +565,7 @@ void setup() {
           }
         }));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/tempHumidity/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/tempHumidity/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/tempHumidity/" + String(device->getN()) + "/delay" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::TempHumidity>(id);
@@ -619,7 +618,7 @@ void setup() {
           }
         }));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/mpu9250/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/mpu9250/"+ String(device->getN())+"/delay" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::MPU_9250>(id);
@@ -663,19 +662,19 @@ void setup() {
     */
     auto runStepper = [](uint8_t id) {
       auto device = getDevice<Devices::Stepper>(id);
-      OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/status/").add(id).send(&com).toString();
+      OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/status").add(id).send(&com).toString();
       IN com.onMessage("/stepper/speed/" + String(device->getN()), "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Stepper>(id);
           device->setSpeed(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/speed/status/").add((int32_t)device->getSpeed()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/speed/status").add((int32_t)device->getSpeed()).send(&com).toString();
         }
       });
       IN com.onMessage("/stepper/dist/" + String(device->getN()), "i", {
         [id](OSCMessage & msg) {
           auto device = getDevice<Devices::Stepper>(id);
           device->setDist(msg.getInt(0));
-          OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/speed/status/").add((int32_t)device->getDist()).send(&com).toString();
+          OUT EasyOsc::MessageOSC("/stepper/" + String(device->getN()) + "/speed/status").add((int32_t)device->getDist()).send(&com).toString();
         }
       });
     };
@@ -709,12 +708,12 @@ void setup() {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::PWM(msg.getInt(0)));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/PWM/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/PWM/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/PWM/" + String(device->getN()) + "/run", "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::PWM>(id);
             device->setValue(msg.getInt(0));
-            OUT EasyOsc::MessageOSC("/PWM/" + String(device->getN()) + "/run/status/").add(device->getValue()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/PWM/" + String(device->getN()) + "/run/status").add(device->getValue()).send(&com).toString();
           }
         });
       }
@@ -726,19 +725,19 @@ void setup() {
       SERVO
       -> /setup/servo [PIN1]
       <- /servo/status id
-      -> /servo/pos/id [pos (0, 180)]
+      -> /servo/id/pos [pos (0, 180)]
       <- /servo/id/pos/status POS
     */
     IN com.onMessage("/setup/servo", "i", {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::Servo(msg.getInt(0)));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/servo/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/servo/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/servo/" + String(device->getN()) + "/pos", "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Servo>(id);
             device->setPos(msg.getInt(0));
-            OUT EasyOsc::MessageOSC("/servo/" + String(device->getN()) + "/pos/status/").add(device->getPos()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/servo/" + String(device->getN()) + "/pos/status").add(device->getPos()).send(&com).toString();
           }
         });
       }
@@ -757,20 +756,20 @@ void setup() {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::DCMotor(msg.getInt(0), msg.getInt(1), msg.getInt(2)));
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
-        IN com.onMessage("/DCmotor/speed/" + String(device->getN()), "i", {
+        OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
+        IN com.onMessage("/DCmotor/"+String(device->getN())+"/speed", "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::DCMotor>(id);
             device->setSpeed(msg.getInt(0));
-            OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/speed/status/").add(device->getSpeed()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/speed/status").add(device->getSpeed()).send(&com).toString();
           }
         });
-        IN com.onMessage("/DCmotor/dir/" + String(device->getN()), "i", {
+        IN com.onMessage("/DCmotor/"+String(device->getN())+"/dir", "i", {
           [id](OSCMessage & msg) {
             Devices::DCMotor::DIRECTION dir = (Devices::DCMotor::DIRECTION) Tools::sign(msg.getInt(0));
             auto device = getDevice<Devices::DCMotor>(id);
             device->setDir(dir);
-            OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/dir/status/").add(device->getDir()).send(&com).toString();
+            OUT EasyOsc::MessageOSC("/DCmotor/" + String(device->getN()) + "/dir/status").add(device->getDir()).send(&com).toString();
           }
         });
       }
@@ -789,7 +788,7 @@ void setup() {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::Oled());
         uint8_t id = device->getID();
-        OUT EasyOsc::MessageOSC("/display/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
+        OUT EasyOsc::MessageOSC("/display/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
         IN com.onMessage("/display/" + String(device->getN()) + "/run", "b", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Oled>(id);
@@ -965,6 +964,7 @@ void setup() {
   }
 
   Serial.println(com.toString());
+
 }
 
 void loop() {
@@ -977,6 +977,7 @@ void loop() {
     delay(wait);
   }
 }
+
 
 
 

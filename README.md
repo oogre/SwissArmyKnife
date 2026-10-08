@@ -1,17 +1,16 @@
 # SwissArmyKnife
-
-SwissArmyKnife is an _Arduino_ software, developped for ESP32 board. It's been writen to help art students to develop custom hardware solution without the needs to write C/C++ code. It uses [OSC](https://fr.wikipedia.org/wiki/Open_Sound_Control) to setup and control hardwares connected on the board.
+SwissArmyKnife est une Firmware ESP32, c'est une boite à outils pensée pour les étudiants en Arts Numériques de l'ESA stLuc Bruxelles. Il leur permet de développer des projets interactif sans devoir écrire de code C/C++ pour interconnecter des capteurs à leurs ordinateurs et Godot ou Chataigne.
 
 ## Install
 This code depends on multiple libraries :  
-* Adafruit BusIO
-* Adafruit GFX Library
-* Adafruit SSD1306
-* Adafruit Unified Sensor
-* DHT sensor library
-* EasyOsc
-* ESP32 ESP32S2 AnalogWrite
-* EspSoftwareSerial
+> * Adafruit BusIO
+> * Adafruit GFX Library
+> * Adafruit SSD1306
+> * Adafruit Unified Sensor
+> * DHT sensor library
+> * EasyOsc
+> * ESP32 ESP32S2 AnalogWrite
+> * EspSoftwareSerial
 
 ### With Arduino IDE
 Install all in once! Clone this repository. Then unzip file *SwissArmyKnife.zip* copy everything inside the folder : *drop_content_to_arduino_Libraries* and paste them to *~/Documents/Arduino/libraries*</br>
@@ -23,17 +22,21 @@ Clone this repository. Then import the main folder with the Plateformio tools. E
 
 ## Default WiFi Configuration
 
-|         |                   |
-|---------|-------------------|
-| SSID    | SwissArmyKnife    | 
-| pwd     |                   |
-| inOSC   | 192.168.4.1:8888  |
-| outOSC  | 192.168.4.255:9999|
-| conType | ACCESS_POINT(0)   |
+|             |                   |
+|-------------|-------------------|
+| conType     | ACCESS_POINT(0)   |
+| SSID        | SwissArmyKnife    | 
+| pwd         |                   |
+| local IP    | 192.168.4.1       |
+| OSC in Port | 8888              |
+| OSC out IP  | 192.168.4.255     |
+| OSC out PORT| 9999              |
+
 
 ## WiFi Configuration
 
-WiFi configuration resist to restart. This config is stored to the EEPROM. Every change will be applied after restart.
+Les configurations réseau sont stockées dans l'EEPROM de l'ESP, elles persistent donc après redémarrage. Pour revenir à la configuration par défaut, connecte la PIN4 au GND durant l'allumage.
+
 
 | i/o 	| OSC Address 	    | DATA   	                        | Description                         	|
 |-----	|-------------	    |--------	                        |-------------------------------------	|
@@ -101,6 +104,21 @@ Potentiometer are available on (PIN_NUM) : 32, 33, 34, 35</br>
 | <-  	| /potentiometer/(ID) 	      | (VALUE) Integer            | At every loop ESP send potentiometer state (VALUE)  |
 | ->  	| /potentiometer/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /potentiometer/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
+
+### Rotary Encoder
+
+Rotary Encoder are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 4</br>
+(VALUE) will depend on encoder postion from int32_t::MIN to int32_t::MAX
+
+| i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
+|-----	|-------------	      |--------	                   |-------------------------------------	             |
+| ->  	| /setup/encoder| (DT_PIN_NUM) Integer, (CLK_PIN_NUM) Integer          | set (PIN_NUM) to be read as a Rotary Encoder         |
+| <-  	| /encoder/(ID)/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this encoder |
+| <-  	| /encoder/(ID) 	      | (VALUE) Integer            | Send encoder state (VALUE) when rotary has been changed  |
+| ->  	| /encoder/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /encoder/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
+
 
 ### Touch/Capasitive sensor
 
