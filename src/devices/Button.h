@@ -14,6 +14,7 @@ namespace Devices {
         bool oldValue;
         uint32_t lastReadAt = 0;
         uint32_t readDelay = 100;
+        uint8_t callerCount = 0;
         RunHandler<bool> callback;
     public :
         Button(uint8_t pin, uint8_t mode, RunHandler<bool> callback)
@@ -35,9 +36,13 @@ namespace Devices {
             if (millis() - lastReadAt > readDelay) {
                 bool value = mode == INPUT ? digitalRead(pin) : !digitalRead(pin);
                 if(value != oldValue){
+                    callerCount = 3;
+                    oldValue = value;
+                }
+                if(callerCount>0){
+                    callerCount--;
                     callback(this, value);
                 }
-                oldValue = value;
                 lastReadAt = millis();
                 Base::run();
             }
