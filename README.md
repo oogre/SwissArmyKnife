@@ -89,6 +89,10 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | <-  	| /input_pullup/(ID) 	     | (VALUE) Integer            | At every loop ESP send Button state (VALUE)    |
 | ->  	| /input_pullup/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /input_pullup/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
+| ->  	| /input_pullup/(ID)/strob 	| (STROB) Integer         |  0 : on change data 1 : Continous data           |
+| <-  	| /input_pullup/(ID)/strob/status 	| (STROB) Integer      | confirm the (STROB) status           |
+
+/input_pullup/"+ String(device->getN())+"/strob" 
 
 
 ### Potentiometer

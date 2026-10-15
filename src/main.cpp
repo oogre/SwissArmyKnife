@@ -424,7 +424,7 @@ void setup() {
       [](OSCMessage & msg) {
         auto device = addDevice(new Devices::Button( msg.getInt(0), INPUT_PULLUP, {
           [](Devices::Base * device, bool value) {
-            EasyOsc::MessageOSC("/input_pullup/" + String(device->getN())).add(value).send(&com);
+            OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN())).add(value).send(&com).toString();
           }
         }));
         uint8_t id = device->getID();
@@ -436,12 +436,18 @@ void setup() {
             OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/delay/status").add((uint16_t)device->getDelay()).send(&com).toString();
           }
         });
-
         IN com.onMessage("/input_pullup/"+ String(device->getN())+"/active" , "i", {
           [id](OSCMessage & msg) {
             auto device = getDevice<Devices::Button>(id);
             device->setActive(msg.getInt(0));
             OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/active/status").add((uint16_t)device->getActive()).send(&com).toString();
+          }
+        });
+        IN com.onMessage("/input_pullup/"+ String(device->getN())+"/strob" , "i", {
+          [id](OSCMessage & msg) {
+            auto device = getDevice<Devices::Button>(id);
+            device->setStrob(msg.getInt(0));
+            OUT EasyOsc::MessageOSC("/input_pullup/" + String(device->getN()) + "/active/strob").add((uint16_t)device->getStrob()).send(&com).toString();
           }
         });
       }

@@ -12,6 +12,7 @@ namespace Devices {
       uint8_t ID;
       uint8_t n;
       bool _active = true;
+      bool _strob = false;
     public :
       template<class T>
       struct RunHandler {
@@ -49,6 +50,12 @@ namespace Devices {
       }
       uint32_t getActive(){
         return _active ? 1 : 0;
+      }
+      virtual void setStrob(uint32_t strob){
+        _strob = strob == 1;
+      }
+      uint32_t getStrob(){
+        return _strob ? 1 : 0;
       }
 
       virtual String toString(){

@@ -34,7 +34,7 @@ namespace Devices {
             if(!_active)return;
             if (millis() - lastReadAt > readDelay) {
                 bool value = mode == INPUT ? digitalRead(pin) : !digitalRead(pin);
-                if(value != oldValue){
+                if(_strob || value != oldValue){
                     callback(this, value);
                 }
                 oldValue = value;
