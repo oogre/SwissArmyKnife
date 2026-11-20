@@ -78,8 +78,6 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | <-  	| /input/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
 
-
- 
 ##### INPUT_PULLUP MODE
  
 | i/o 	| OSC Address 	     | DATA   	                  | Description                         	       |
@@ -93,6 +91,24 @@ Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23
 | <-  	| /input_pullup/(ID)/strob/status 	| (STROB) Integer      | confirm the (STROB) status           |
 
 /input_pullup/"+ String(device->getN())+"/strob" 
+
+
+
+
+### POLYBUTTON
+
+Button are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
+(ID) will be sequentially attributed from 0 to 16</br>
+(VALUE) will depend on Button postion 0 or 1
+ 
+| i/o 	| OSC Address 	     | DATA   	                  | Description                         	       |
+|-----	|-------------	     |--------	                  |-------------------------------------	       |
+| ->  	| /setup/polyButton  |                            | NOTHING |
+| <-  	| /polyButton/(ID) 	 | (DATA) String              | DATA are structured by a string of 0 and 1. 0 mean connected 1 is non-connected  |
+| <-  	| /polyButton/(ID)/status 	 | (ID) Integer               | ESP confirms by reply the (ID) of this polyButton  |
+| <-  	| /polyButton/(ID)/add 	     | (PIN) Integer            | add pin as terminal for a button    |
+| ->  	| /polyButton/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
+| <-  	| /polyButton/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
 
 ### Potentiometer

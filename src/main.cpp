@@ -366,6 +366,27 @@ void setup() {
     });
   }
 
+  { // POLYBUTTON
+    IN com.onMessage("/setup/polyButton", {
+      [](OSCMessage & msg) {
+        auto device = addDevice(new Devices::PolyButton( {
+          [](Devices::Base * device, String value) {
+            EasyOsc::MessageOSC("/polyButton/" + String(device->getN())).add(value).send(&com);
+          }
+        }));
+        uint8_t id = device->getID();
+        OUT EasyOsc::MessageOSC("/polyButton/" + String(device->getN()) + "/status").add(device->getN()).send(&com).toString();
+        IN com.onMessage("/polyButton/"+ String(device->getN())+"/add" , "i", {
+          [id](OSCMessage & msg) {
+            auto device = getDevice<Devices::PolyButton>(id);
+            device->addButton(msg.getInt(0));
+            OUT EasyOsc::MessageOSC("/polyButton/" + String(device->getN()) + "/add/status").add((uint16_t)device->getLastBtn()).send(&com).toString();
+          }
+        });
+      }
+    });
+  }
+
   { // INPUT
     /*
       INPUT
@@ -895,6 +916,18 @@ void setup() {
           OUT EasyOsc::MessageOSC("/setup/dist").add((uint16_t)Tools::getString(line, ' ', 1).toInt()).add((uint16_t)Tools::getString(line, ' ', 2).toInt()).loopBack(&com).toString();
           OUT EasyOsc::MessageOSC("/dist/" + String(devices.at(devices.size()-1)->getN()) + "/active").add((uint16_t)Tools::getString(line, ' ', 3).toInt()).loopBack(&com).toString();
           break;
+        case Devices::Base::TYPE::POLYBUTTON :
+          /* TO TEST */
+          OUT EasyOsc::MessageOSC("/setup/polyButton").loopBack(&com).toString();
+          for(uint8_t i = 0 ; i < Devices::PolyButton::MAX_PIN ; i++){
+              if(i!=0){
+                OUT EasyOsc::MessageOSC("/polyButton/last/add").add((uint16_t)Tools::getString(line, ' ', 1 + i).toInt()).loopBack(&com).toString();
+              }
+          }
+          OUT EasyOsc::MessageOSC("/polyButton/last/delay" ).add((uint16_t)Tools::getString(line, ' ', 1 + Devices::PolyButton::MAX_PIN+0).toInt()).loopBack(&com).toString();
+          OUT EasyOsc::MessageOSC("/polyButton/last/active").add((uint16_t)Tools::getString(line, ' ', 1 + Devices::PolyButton::MAX_PIN+1).toInt()).loopBack(&com).toString();
+          /* END TO TEST */
+        break;
         case Devices::Base::TYPE::BUTTON :
           if(INPUT == Tools::getString(line, ' ', 2).toInt()){
             OUT EasyOsc::MessageOSC("/setup/input").add((uint16_t)Tools::getString(line, ' ', 1).toInt()).loopBack(&com).toString();
