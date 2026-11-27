@@ -2,6 +2,7 @@
 #include <memory>
 
 
+#include "HeartBeat.h"
 #include "Encoder.h"
 #include "AnalogIn.h"
 #include "DigitalOut.h"
@@ -17,7 +18,6 @@
 #include "Accelerometer.h"
 #include "Strip.h"
 #include "PolyButton.h"
-
 
 std::vector<std::shared_ptr<Devices::Base>> devices;
 

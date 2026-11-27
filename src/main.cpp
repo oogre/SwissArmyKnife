@@ -260,16 +260,24 @@ void setup() {
         });
       }
     });
+  }
 
-    IN com.onMessage("/potentiometer/last/delay", "i", {
+  { // HEARTBEAT
+    /*
+      HEARTBEAT
+      -> /setup/heartBeat
+      <- /heartBeat/status id
+      <- /heartBeat/ID VALUE
+    */
+    IN com.onMessage("/setup/heartBeat", "", {
       [](OSCMessage & msg) {
-          OUT EasyOsc::MessageOSC("/potentiometer/" + String(devices.at(devices.size()-1)->getN()) + "/delay").add(msg.getInt(0)).loopBack(&com).toString();
-      }
-    });
-
-    IN com.onMessage("/potentiometer/last/active", "i", {
-      [](OSCMessage & msg) {
-          OUT EasyOsc::MessageOSC("/potentiometer/" + String(devices.at(devices.size()-1)->getN()) + "/active").add(msg.getInt(0)).loopBack(&com).toString();
+        auto device = addDevice(new Devices::HeartBeat({
+          [](Devices::Base * device, int32_t value) {
+            OUT EasyOsc::MessageOSC("/heartBeat/" + String(device->getN())).add(value).send(&com).toString();
+          }
+        }));
+        uint8_t id = device->getID();
+        OUT EasyOsc::MessageOSC("/heartBeat/" + String(device->getN()) + "/status/").add(device->getN()).send(&com).toString();
       }
     });
   }
@@ -965,6 +973,9 @@ void setup() {
           break;
         case Devices::Base::TYPE::DC_MOTO :
           OUT EasyOsc::MessageOSC("/setup/DCmotor").add((uint16_t)Tools::getString(line, ' ', 1).toInt()).add((uint16_t)Tools::getString(line, ' ', 2).toInt()).add((uint16_t)Tools::getString(line, ' ', 3).toInt()).loopBack(&com).toString();
+          break;
+        case Devices::Base::TYPE::HEARTBEAT :
+          OUT EasyOsc::MessageOSC("/setup/heartBeat").add((uint16_t)Tools::getString(line, ' ', 1).toInt()).loopBack(&com).toString();
           break;
         case Devices::Base::TYPE::NONE :
           /*TODO*/

@@ -125,6 +125,21 @@ Potentiometer are available on (PIN_NUM) : 32, 33, 34, 35</br>
 | ->  	| /potentiometer/(ID)/delay 	| (DELAY) Integer          | set (DELAY) between 2 reading           |
 | <-  	| /potentiometer/(ID)/delay/status 	| (DELAY) Integer          | confirm the (DELAY) between 2 reading           |
 
+### HeartBeat
+
+HeartBeat MAX30102 are available on (PIN_NUM) : 21 SDA 22 SCL </br>
+(ID) will be sequentially attributed from 0 to 2</br>
+(VALUE) will depend on HeartBeat between 45 and 180
+noFinger will say -1
+no Average will say 0
+
+| i/o 	| OSC Address 	      | DATA   	                   | Description                         	             |
+|-----	|-------------	      |--------	                   |-------------------------------------	             |
+| ->  	| /setup/heartBeat|           | NOTHING         |
+| <-  	| /heartBeat/(ID)/status 	  | (ID) Integer               | ESP confirms by reply the (ID) of this MAX30102|
+| <-  	| /heartBeat/(ID) 	      | (VALUE) Integer            | At every loop ESP send MAX30102 state (VALUE)  |
+
+
 ### Rotary Encoder
 
 Rotary Encoder are available on (PIN_NUM) : 4, 5, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33</br>
